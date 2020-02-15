@@ -8,28 +8,10 @@ const { Mail, validateMail } = require("../models/mail");
 const express = require("express");
 const router = express.Router();
 
-router.post("/composed", auth, async (req, res) => {
-  const { error } = validateMail(req.body);
-  if (error) return res.status(404).send(error.details[0].message);
-
-  const token = req.header("x-auth-token");
-  const decode = jwt.verify(token, config.get("jwtPrivateKey"));
-
-  const mail = new Mail({
-    senderId: decode._id,
-    receiverId: req.body.receiverId,
-    subject: req.body.subject,
-    body: req.body.body
-  });
-  await mail.save();
-  return res.status(200).send({ payload: "mail sent" });
-});
-
 //Getting users
 router.get("/", auth, async (req, res) => {
   try {
     const regex = new RegExp(`.*${req.body.q}.*`, "i");
-
     const users = await User.find({ email: regex });
     res.status(200).send({ payload: users });
   } catch (ex) {
@@ -41,8 +23,7 @@ router.get("/", auth, async (req, res) => {
 router.post("/", async (req, res) => {
   const { error } = validateUser(req.body);
   if (error) {
-    // res.send({ status: 404, error: error.details[0].message });
-    res.status(404).send(error.details[0].message);
+    res.status(404).send({ payload: error.details[0].message });
     return;
   }
   let user = await User.findOne({ email: req.body.email });
@@ -57,10 +38,10 @@ router.post("/", async (req, res) => {
   await user.save();
 
   //Here use token to directly login not required email to login
-  const token = user.generateAuthToken();
+  // const token = user.generateAuthToken();
 
   res
-    .header("x-auth-token", token)
+    // .header("x-auth-token", token)
     .status(200)
     .send({ payload: _.pick(user, ["_id", "name", "email"]) });
 });
@@ -71,7 +52,7 @@ router.put("/:id", async (req, res) => {
   try {
     const { error } = validateUser(req.body);
     if (error) {
-      res.status(404).send(error.details[0].message);
+      res.status(404).send({ payload: error.details[0].message });
       return;
     }
     const salt = await bcryptjs.genSalt(10);
