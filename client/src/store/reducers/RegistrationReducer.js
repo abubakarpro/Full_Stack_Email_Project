@@ -4,7 +4,7 @@ import {
   REGISTER_FAILURE
 } from "../actions/RegisterAction";
 
-const INITIAL_STATE = { payload: {}, isLoading: false, error: {} };
+const INITIAL_STATE = { payload: {}, isLoading: false, error: "" };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {

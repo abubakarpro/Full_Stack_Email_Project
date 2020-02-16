@@ -1,10 +1,10 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Navrbar = () => {
   return (
     <div>
-      <button type="button" class="btn btn-light">
+      <button type="button" className="btn btn-light">
         Composed
       </button>
       <nav className=" navbar-light bg-light">

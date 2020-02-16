@@ -4,7 +4,13 @@ import {
   LOGIN_FAILURE
 } from "../actions/LoginAction";
 
-const INITIAL_STATE = { token: {}, isLoading: false, error: {} };
+const TOKEN = "token";
+
+export const INITIAL_STATE = {
+  token: localStorage.getItem(TOKEN) || "",
+  isLoading: false,
+  error: ""
+};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -14,6 +20,7 @@ export default (state = INITIAL_STATE, action) => {
         isLoading: true
       };
     case LOGIN_SUCCESS:
+      localStorage.setItem(TOKEN, action.payload);
       return {
         ...state,
         token: action.payload,

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Joi from "joi-browser";
-import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import { login } from "../store/actions/LoginAction";
-
+import Notify from "../common/notify";
 class Login extends Component {
   state = {
     account: {
@@ -65,13 +64,6 @@ class Login extends Component {
     account.email = "";
     account.password = "";
     this.setState({ account });
-    toast.success("User Successfully logged");
-  };
-
-  show = () => {
-    console.log(this.props.token.payload);
-    console.log(this.props.token);
-    return;
   };
 
   render() {
@@ -100,8 +92,8 @@ class Login extends Component {
                   onChange={this.handleChange}
                   required
                 />
-                {errors.name && (
-                  <div className="alert alert-danger">{errors.name}</div>
+                {errors.email && (
+                  <div className="alert alert-danger">{errors.email}</div>
                 )}
               </div>
               <div className="form-group">
@@ -114,8 +106,8 @@ class Login extends Component {
                   onChange={this.handleChange}
                   required
                 />
-                {errors.name && (
-                  <div className="alert alert-danger">{errors.name}</div>
+                {errors.password && (
+                  <div className="alert alert-danger">{errors.password}</div>
                 )}
               </div>
               <div className="form-group">
@@ -137,6 +129,7 @@ class Login extends Component {
                   Create account
                 </Link>
               </div>
+              {/* {<Notify history={this.props.history} />} */}
             </form>
           </div>
         </div>
@@ -144,11 +137,7 @@ class Login extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  token: state.Login.token,
-  error: state.Login.error
-});
 
 const mapDispatchToProps = { login };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

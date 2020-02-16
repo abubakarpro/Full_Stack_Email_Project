@@ -25,7 +25,7 @@ export function register(account) {
       .catch(err => {
         dispatch({
           type: REGISTER_FAILURE,
-          error: err.response.data
+          error: err.response.data.payload
         });
         console.log(err.response.data);
       });
