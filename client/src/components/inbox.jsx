@@ -1,7 +1,15 @@
 import React, { Component } from "react";
+import Store from "../store/Store";
+import { decode } from "jsonwebtoken";
+import requireAuth from "../hoc/requireAuth";
 
 class Inbox extends Component {
   state = {};
+
+  componentDidMount() {
+    const token = Store.getState().Auth.token;
+    const user = decode(token);
+  }
   render() {
     return (
       <React.Fragment>
@@ -11,4 +19,4 @@ class Inbox extends Component {
   }
 }
 
-export default Inbox;
+export default requireAuth(Inbox);

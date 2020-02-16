@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import requireAuth from "../hoc/requireAuth";
 
 class Sent extends Component {
   state = {};
@@ -11,4 +12,4 @@ class Sent extends Component {
   }
 }
 
-export default Sent;
+export default requireAuth(Sent);

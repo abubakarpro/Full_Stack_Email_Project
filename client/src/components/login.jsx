@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Joi from "joi-browser";
 import { connect } from "react-redux";
-import { login } from "../store/actions/LoginAction";
+import { login } from "../store/actions/AuthAction";
 import Notify from "../common/notify";
 class Login extends Component {
   state = {
@@ -129,7 +129,7 @@ class Login extends Component {
                   Create account
                 </Link>
               </div>
-              {/* {<Notify history={this.props.history} />} */}
+              {<Notify history={this.props.history} />}
             </form>
           </div>
         </div>

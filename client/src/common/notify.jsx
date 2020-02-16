@@ -19,9 +19,9 @@ class Notify extends Component {
 }
 
 const mapStateToProps = state => ({
-  isloading: state.Login.isloading,
-  token: state.Login.token,
-  error: state.Login.error
+  isloading: state.Auth.isloading,
+  token: state.Auth.token,
+  error: state.Auth.error
 });
 
 export default connect(mapStateToProps, null)(Notify);

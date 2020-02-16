@@ -2,10 +2,10 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import requireAuth from "./hoc/requireAuth";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/header";
 import Container from "./components/container";
+import Composed from "./components/composed";
 import Login from "./components/login";
 import Register from "./components/register";
 import Inbox from "./components/inbox";
@@ -15,7 +15,7 @@ import NotFound from "./components/notFound";
 import Store from "./store/Store";
 import "./App.css";
 
-function App() {
+function App(props) {
   return (
     <React.Fragment>
       <Provider store={Store}>
@@ -26,13 +26,16 @@ function App() {
             <Switch>
               <Route path="/register" component={Register} />
               <Route path="/container" component={Container} />
+              <Route path="/composed" component={Composed} />
               <Route path="/inbox" component={Inbox} />
               <Route path="/sent" component={Sent} />
               <Route path="/" exact component={Login} />
               <Route path="/*" component={NotFound} />
             </Switch>
           </div>
-          <div className="row">{/* <Container /> */}</div>
+          <div className="row">
+            {/* <Container history={props.history} /> */}
+          </div>
         </div>
       </Provider>
     </React.Fragment>
