@@ -27,11 +27,11 @@ router.get("/inbox", auth, async (req, res) => {
     const token = req.header("x-auth-token");
     const decode = jwt.verify(token, config.get("jwtPrivateKey"));
     const receivedMails = await Mail.find({ receiverId: decode._id });
-    console.log(receivedMails);
-    if (!(receivedMails.length > 0 && receivedMails.isArray()))
+    if (!(receivedMails.length > 0 && Array.isArray(receivedMails))) {
       return res
         .status(404)
         .send({ payload: "Not Mails exists against such user" });
+    }
     return res.status(200).send({ payload: receivedMails });
   } catch (ex) {
     return res
@@ -48,11 +48,11 @@ router.get("/inbox/unread", auth, async (req, res) => {
       receiverId: decode._id,
       isread: req.body.isread
     });
-    console.log(unreadMails);
-    if (!(unreadMails.length > 0 && unreadMails.isArray()))
+    if (!(unreadMails.length > 0 && Array.isArray(unreadMails))) {
       return res
         .status(404)
         .send({ payload: "Not Mails exists against such user" });
+    }
     return res.status(200).send({ payload: unreadMails });
   } catch (ex) {
     return res
@@ -65,12 +65,12 @@ router.get("/sent", auth, async (req, res) => {
   try {
     const token = req.header("x-auth-token");
     const decode = jwt.verify(token, config.get("jwtPrivateKey"));
-    console.log(decode._id);
     const sendMails = await Mail.find({ senderId: decode._id });
-    if (!(sendMails.length > 0 && sendMails.isArray()))
+    if (!(sendMails.length > 0 && Array.isArray(sendMails))) {
       return res
         .status(404)
         .send({ payload: "Not Mails exists against such user" });
+    }
     return res.status(200).send({ payload: sendMails });
   } catch (ex) {
     return res
