@@ -19,8 +19,6 @@ export function login(account) {
           type: LOGIN_SUCCESS,
           payload: res.data.payload //res.data , res.header , res.status
         });
-
-        console.log(res.data);
       })
 
       //LOGIN_FAILURE

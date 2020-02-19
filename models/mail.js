@@ -6,11 +6,11 @@ Joi.ObjectId = require("joi-objectid")(Joi);
 const mailSchema = new mongoose.Schema({
   senderId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "users"
+    ref: "User"
   },
   receiverId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "users"
+    ref: "User"
   },
   subject: {
     type: String,

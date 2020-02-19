@@ -4,13 +4,13 @@ import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/header";
-import Container from "./components/container";
-import Composed from "./components/composed";
+import ComposedEmail from "./components/composedEmail";
 import Login from "./components/login";
 import Register from "./components/register";
 import Inbox from "./components/inbox";
 import Sent from "./components/sent";
 import NotFound from "./components/notFound";
+import componentWithSideBar from "./hoc/componentWithSideBar";
 
 import Store from "./store/Store";
 import "./App.css";
@@ -25,17 +25,15 @@ function App(props) {
           <div className="body">
             <Switch>
               <Route path="/register" component={Register} />
-              <Route path="/container" component={Container} />
-              <Route path="/composed" component={Composed} />
-              <Route path="/inbox" component={Inbox} />
-              <Route path="/sent" component={Sent} />
+
+              <Route path="/composedEmail" component={ComposedEmail} />
+              <Route path="/inbox" component={componentWithSideBar(Inbox)} />
+              <Route path="/sent" component={componentWithSideBar(Sent)} />
               <Route path="/" exact component={Login} />
               <Route path="/*" component={NotFound} />
             </Switch>
           </div>
-          <div className="row">
-            {/* <<Container history={props.history} /> */}
-          </div>
+          <div className="row"></div>
         </div>
       </Provider>
     </React.Fragment>

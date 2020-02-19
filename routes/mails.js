@@ -22,11 +22,36 @@ router.post("/composed", auth, async (req, res) => {
   return res.status(200).send({ payload: "mail sent" });
 });
 
+router.get("/allMails", auth, async (req, res) => {
+  try {
+    const token = req.header("x-auth-token");
+    const decode = jwt.verify(token, config.get("jwtPrivateKey"));
+    const allMails = await Mail.find(
+      { receiverId: decode._id } || { senderId: decode._id }
+    );
+
+    if (!(allMails.length > 0 && Array.isArray(allMails))) {
+      return res
+        .status(404)
+        .send({ payload: "Not Mails exists against such user" });
+    }
+    return res.status(200).send({ payload: allMails });
+  } catch (ex) {
+    return res
+      .status(404)
+      .send({ payload: "Not Mails exists against such user" });
+  }
+});
+
 router.get("/inbox", auth, async (req, res) => {
   try {
     const token = req.header("x-auth-token");
     const decode = jwt.verify(token, config.get("jwtPrivateKey"));
-    const receivedMails = await Mail.find({ receiverId: decode._id });
+    const receivedMails = await Mail.find({ receiverId: decode._id }).populate(
+      "senderId",
+      "name"
+    );
+
     if (!(receivedMails.length > 0 && Array.isArray(receivedMails))) {
       return res
         .status(404)
@@ -65,7 +90,10 @@ router.get("/sent", auth, async (req, res) => {
   try {
     const token = req.header("x-auth-token");
     const decode = jwt.verify(token, config.get("jwtPrivateKey"));
-    const sendMails = await Mail.find({ senderId: decode._id });
+    const sendMails = await Mail.find({ senderId: decode._id }).populate(
+      "receiverId",
+      "name"
+    );
     if (!(sendMails.length > 0 && Array.isArray(sendMails))) {
       return res
         .status(404)

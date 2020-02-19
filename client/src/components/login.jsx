@@ -13,6 +13,18 @@ class Login extends Component {
     errors: {}
   };
 
+  componentDidMount() {
+    if (this.props.token) {
+      this.props.history.push("/inbox");
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.token) {
+      this.props.history.push("/inbox");
+    }
+  }
+
   schema = {
     email: Joi.string()
       .email()
@@ -129,7 +141,7 @@ class Login extends Component {
                   Create account
                 </Link>
               </div>
-              {<Notify history={this.props.history} />}
+              {this.props.error && <Notify error={this.props.error} />}
             </form>
           </div>
         </div>
@@ -138,6 +150,12 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  isloading: state.Auth.isloading,
+  token: state.Auth.token,
+  error: state.Auth.error
+});
+
 const mapDispatchToProps = { login };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
