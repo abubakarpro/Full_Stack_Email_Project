@@ -20,12 +20,11 @@ function App(props) {
     <React.Fragment>
       <Provider store={Store}>
         <ToastContainer />
-        <Header />
+        <Route path="*" component={Header} />
         <div className="container-fluid">
           <div className="body">
             <Switch>
               <Route path="/register" component={Register} />
-
               <Route path="/composedEmail" component={ComposedEmail} />
               <Route path="/inbox" component={componentWithSideBar(Inbox)} />
               <Route path="/sent" component={componentWithSideBar(Sent)} />

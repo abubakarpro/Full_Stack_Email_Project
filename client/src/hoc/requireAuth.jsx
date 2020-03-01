@@ -3,6 +3,11 @@ import { connect } from "react-redux";
 
 export default ChildComponent => {
   class ComposedComponent extends Component {
+    state = {
+      axiosConfig: {
+        headers: { "x-auth-token": this.props.token }
+      }
+    };
     componentDidMount() {
       this.shouldNavigateAway();
     }

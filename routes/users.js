@@ -1,10 +1,7 @@
 const auth = require("../middlewares/authmiddleware");
-const config = require("config");
-const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 const bcryptjs = require("bcryptjs");
 const { User, validateUser } = require("../models/user");
-const { Mail, validateMail } = require("../models/mail");
 const express = require("express");
 const router = express.Router();
 

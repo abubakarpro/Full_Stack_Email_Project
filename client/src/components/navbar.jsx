@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import ComposedEmail from "./composedEmail";
 import { NavLink } from "react-router-dom";
-import Popup from "../common/popup";
 
 const activeStyle = {
   color: "#dc3e34",
@@ -8,33 +8,14 @@ const activeStyle = {
 };
 
 class NavBar extends Component {
-  state = {
-    showPopUp: false
-  };
-
-  togglePopup = () => {
-    this.setState({ showPopup: !this.state.showPopup });
-  };
+  state = {};
 
   render() {
     return (
       <div>
         <div className="container">
           <ul className="navbar-nav">
-            <button
-              type="button"
-              className="btn btn-light"
-              onClick={this.togglePopup}
-              style={{
-                padding: "15px",
-                backgroundColor: "whitesmoke",
-                text: "blod",
-                fontWeight: "bold"
-              }}
-            >
-              Composed
-            </button>
-            {/* {this.state.showPopUp ? <Popup /> : ""} */}
+            <ComposedEmail />
             <li className="nav-item">
               <NavLink
                 className="navbar-brand"

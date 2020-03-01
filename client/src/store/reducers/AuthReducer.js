@@ -1,8 +1,16 @@
+//IMPORT LOGIN_CONST
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE
 } from "../actions/AuthAction";
+
+//IMPORT LOGOUT_CONST
+import {
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILURE
+} from "../actions/LogoutAction";
 
 const TOKEN = "token";
 
@@ -33,6 +41,29 @@ export default (state = INITIAL_STATE, action) => {
         error: action.error,
         isLoading: false
       };
+
+    //LOGOUT_CASES
+    case LOGOUT_REQUEST:
+      return {
+        ...state,
+        isloading: true
+      };
+
+    case LOGOUT_SUCCESS:
+      localStorage.removeItem(TOKEN);
+      return {
+        ...state,
+        token: "",
+        isloading: false
+      };
+
+    case LOGIN_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      };
+
     default:
       return state;
   }

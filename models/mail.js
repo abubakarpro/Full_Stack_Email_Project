@@ -31,6 +31,10 @@ const mailSchema = new mongoose.Schema({
   }
 });
 
+mailSchema.virtual("shortDesc").get(function() {
+  return this.body.substr(0, 50);
+});
+
 const Mail = mongoose.model("Mail", mailSchema);
 
 function validateMail(mail) {

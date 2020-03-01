@@ -4,19 +4,28 @@ const router = express.Router();
 const auth = require("../middlewares/authmiddleware");
 const config = require("config");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 router.post("/composed", auth, async (req, res) => {
-  const { error } = validateMail(req.body);
-  if (error) return res.status(404).send(error.details[0].message);
+  console.log("into composed");
+  console.log(req.body.subject);
+  console.log(req.body.message);
+
+  // const { error } = validateMail(req.body);
+  // if (error) return res.status(404).send(error.details[0].message);
 
   const token = req.header("x-auth-token");
   const decode = jwt.verify(token, config.get("jwtPrivateKey"));
+  console.log(decode._id);
+
+  const rid = "5e3085790b677a10502efefd";
+  // const senderId = mongoose.Type.ObjectId(decode._id);
 
   const mail = new Mail({
     senderId: decode._id,
-    receiverId: req.body.receiverId,
+    receiverId: rid,
     subject: req.body.subject,
-    body: req.body.body
+    body: req.body.message
   });
   await mail.save();
   return res.status(200).send({ payload: "mail sent" });
@@ -33,73 +42,23 @@ router.get("/allMails", auth, async (req, res) => {
     if (!(allMails.length > 0 && Array.isArray(allMails))) {
       return res
         .status(404)
-        .send({ payload: "Not Mails exists against such user" });
+        .send({ payload: "111 Not Mails exists against such user" });
     }
     return res.status(200).send({ payload: allMails });
   } catch (ex) {
     return res
       .status(404)
-      .send({ payload: "Not Mails exists against such user" });
+      .send({ payload: "2222 Not Mails exists against such user" });
   }
 });
 
-router.get("/inbox", auth, async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   try {
-    const token = req.header("x-auth-token");
-    const decode = jwt.verify(token, config.get("jwtPrivateKey"));
-    const receivedMails = await Mail.find({ receiverId: decode._id }).populate(
-      "senderId",
-      "name"
-    );
-
-    if (!(receivedMails.length > 0 && Array.isArray(receivedMails))) {
-      return res
-        .status(404)
-        .send({ payload: "Not Mails exists against such user" });
-    }
-    return res.status(200).send({ payload: receivedMails });
-  } catch (ex) {
-    return res
-      .status(404)
-      .send({ payload: "Not Mails exists against such user" });
-  }
-});
-
-router.get("/inbox/unread", auth, async (req, res) => {
-  try {
-    const token = req.header("x-auth-token");
-    const decode = jwt.verify(token, config.get("jwtPrivateKey"));
-    const unreadMails = await Mail.find({
-      receiverId: decode._id,
-      isread: req.body.isread
+    const singleMail = await Mail.findOne({
+      _id: req.params.id
     });
-    if (!(unreadMails.length > 0 && Array.isArray(unreadMails))) {
-      return res
-        .status(404)
-        .send({ payload: "Not Mails exists against such user" });
-    }
-    return res.status(200).send({ payload: unreadMails });
-  } catch (ex) {
-    return res
-      .status(404)
-      .send({ payload: "Not Mails exists against such user" });
-  }
-});
 
-router.get("/sent", auth, async (req, res) => {
-  try {
-    const token = req.header("x-auth-token");
-    const decode = jwt.verify(token, config.get("jwtPrivateKey"));
-    const sendMails = await Mail.find({ senderId: decode._id }).populate(
-      "receiverId",
-      "name"
-    );
-    if (!(sendMails.length > 0 && Array.isArray(sendMails))) {
-      return res
-        .status(404)
-        .send({ payload: "Not Mails exists against such user" });
-    }
-    return res.status(200).send({ payload: sendMails });
+    return res.status(200).send({ payload: singleMail });
   } catch (ex) {
     return res
       .status(404)
