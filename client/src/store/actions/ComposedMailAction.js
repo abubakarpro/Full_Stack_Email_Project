@@ -26,7 +26,7 @@ export function composedMailFun(composedMail, token) {
 
       //COMPOSEDMAIL_FAILURE
       .catch(err => {
-        console.log(err);
+        console.log(err.response.data);
         dispatch({
           type: COMPOSEDMAIL_FAILURE,
           error: err.response.data.payload

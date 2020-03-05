@@ -1,18 +1,24 @@
 import React, { Component } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 import _ from "lodash";
 import Joi from "joi-browser";
 import { composedMailFun } from "../store/actions/ComposedMailAction";
 import { connect } from "react-redux";
 import Store from "../store/Store";
 
+const token = Store.getState().Auth.token;
+
 class ComposedForm extends Component {
   state = {
     composedMail: {
       email: "",
       subject: "",
-      message: ""
+      body: ""
     },
-    errors: {}
+    errors: {},
+    mailsArray: [],
+    isSentMail: true
   };
 
   schema = {
@@ -23,9 +29,9 @@ class ComposedForm extends Component {
     subject: Joi.string()
       .required()
       .label("Subject"),
-    message: Joi.string()
+    body: Joi.string()
       .required()
-      .label("message")
+      .label("Body")
   };
 
   validate = () => {
@@ -53,7 +59,19 @@ class ComposedForm extends Component {
     else delete errors[input.name];
 
     const composedMail = { ...this.state.composedMail };
+
+    if (input.name === "email") {
+      axios
+        .get(`http://localhost:3002/api/users?q=${input.value}`)
+        .then(res => {
+          this.setState({ mailsArray: res.data.payload });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
     composedMail[input.name] = input.value;
+
     this.setState({ composedMail, errors });
   };
 
@@ -65,17 +83,17 @@ class ComposedForm extends Component {
     if (errors) return;
 
     this.props.composedMailFun(this.state.composedMail, token);
-    console.log("sent email");
 
     const composedMail = { ...this.state.composedMail };
     composedMail.email = "";
     composedMail.subject = "";
-    composedMail.message = "";
+    composedMail.body = "";
     this.setState({ composedMail });
+    this.props.handleClose();
   };
 
   render() {
-    const { composedMail, errors } = this.state;
+    const { composedMail, errors, mailsArray } = this.state;
     return (
       <React.Fragment>
         <form onSubmit={this.handleSubmit}>
@@ -85,6 +103,7 @@ class ComposedForm extends Component {
               className="form-control"
               name="email"
               placeholder="To"
+              list="emailsArray"
               value={composedMail.email}
               onChange={this.handleChange}
               required
@@ -92,6 +111,21 @@ class ComposedForm extends Component {
             {errors.email && (
               <div className="alert alert-danger">{errors.email}</div>
             )}
+            <div>
+              {mailsArray.map(m => (
+                <datalist
+                  style={{
+                    position: "absolute",
+                    marginLeft: "100px",
+                    width: "100px"
+                  }}
+                  key={m._id}
+                  id="emailsArray"
+                >
+                  <option value={m.email} />
+                </datalist>
+              ))}
+            </div>
           </div>
           <div className="form-group">
             <input
@@ -109,15 +143,15 @@ class ComposedForm extends Component {
           <div className="form-group">
             <textarea
               className="form-control"
-              name="message"
+              name="body"
               row="20"
-              placeholder="message"
-              value={composedMail.message}
+              placeholder="body"
+              value={composedMail.body}
               onChange={this.handleChange}
               required
             ></textarea>
-            {errors.message && (
-              <div className="alert alert-danger">{errors.message}</div>
+            {errors.body && (
+              <div className="alert alert-danger">{errors.body}</div>
             )}
           </div>
 
@@ -129,13 +163,23 @@ class ComposedForm extends Component {
             >
               send
             </button>
+            <button
+              style={{ marginLeft: "10px" }}
+              className="btn btn-secondary"
+              onClick={this.props.handleClose}
+            >
+              close
+            </button>
           </div>
         </form>
       </React.Fragment>
     );
   }
 }
+const mapStateToProps = state => ({
+  error: state.Composed.error
+});
 
 const mapDispatchToProps = { composedMailFun };
 
-export default connect(null, mapDispatchToProps)(ComposedForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ComposedForm);

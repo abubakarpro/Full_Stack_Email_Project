@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Joi from "joi-browser";
 import { connect } from "react-redux";
 import { login } from "../store/actions/AuthAction";
-import Notify from "../common/notify";
+import Notify from "../common/Notify";
 class Login extends Component {
   state = {
     account: {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Modal } from "react-bootstrap";
-import ComposedForm from "../common/composedForm";
+import ComposedForm from "../common/ComposedForm";
 
 class ComposedEmail extends Component {
   state = {
@@ -39,7 +39,7 @@ class ComposedEmail extends Component {
               <Modal.Title>Composed</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <ComposedForm />
+              <ComposedForm handleClose={this.handleClose} />
             </Modal.Body>
           </Modal>
         </div>

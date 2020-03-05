@@ -2,30 +2,28 @@ const { Mail, validateMail } = require("../models/mail");
 const express = require("express");
 const router = express.Router();
 const auth = require("../middlewares/authmiddleware");
+const { User } = require("../models/user");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
 router.post("/composed", auth, async (req, res) => {
-  console.log("into composed");
-  console.log(req.body.subject);
-  console.log(req.body.message);
-
-  // const { error } = validateMail(req.body);
-  // if (error) return res.status(404).send(error.details[0].message);
+  const { error } = validateMail(req.body);
+  if (error) return res.status(404).send(error.details[0].message);
 
   const token = req.header("x-auth-token");
   const decode = jwt.verify(token, config.get("jwtPrivateKey"));
-  console.log(decode._id);
 
-  const rid = "5e3085790b677a10502efefd";
-  // const senderId = mongoose.Type.ObjectId(decode._id);
+  let user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return res.status(404).send({ payload: "email not exits" });
+  }
 
   const mail = new Mail({
     senderId: decode._id,
-    receiverId: rid,
+    receiverId: user._id,
     subject: req.body.subject,
-    body: req.body.message
+    body: req.body.body
   });
   await mail.save();
   return res.status(200).send({ payload: "mail sent" });
@@ -54,9 +52,11 @@ router.get("/allMails", auth, async (req, res) => {
 
 router.get("/:id", auth, async (req, res) => {
   try {
-    const singleMail = await Mail.findOne({
-      _id: req.params.id
-    });
+    const singleMail = await Mail.findOneAndUpdate(
+      { _id: req.params.id },
+      { isread: true },
+      { new: true }
+    ).populate("senderId", { name: 1 });
 
     return res.status(200).send({ payload: singleMail });
   } catch (ex) {

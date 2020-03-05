@@ -6,10 +6,10 @@ const express = require("express");
 const router = express.Router();
 
 //Getting users
-router.get("/", auth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const regex = new RegExp(`.*${req.body.q}.*`, "i");
-    const users = await User.find({ email: regex });
+    const regex = new RegExp(`.*${req.query.q}.*`, "i");
+    const users = await User.find({ email: regex }).select("-password");
     res.status(200).send({ payload: users });
   } catch (ex) {
     res.status(200).send({ payload: "such user not exit" });

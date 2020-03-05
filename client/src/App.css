@@ -64,6 +64,10 @@
   font-family: auto;
   cursor: pointer;
 }
+.mail-bold {
+  font-weight: bold;
+  cursor: pointer;
+}
 
 /* NavBar */
 /* .navbar {

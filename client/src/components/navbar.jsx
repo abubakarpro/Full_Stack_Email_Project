@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ComposedEmail from "./composedEmail";
+import ComposedEmail from "./ComposedEmail";
 import { NavLink } from "react-router-dom";
 
 const activeStyle = {

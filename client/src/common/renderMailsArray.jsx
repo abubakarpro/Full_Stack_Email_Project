@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-
-import Notify from "../common/notify";
+import Notify from "./Notify";
 
 class RenderMails extends Component {
   state = {};
@@ -38,7 +37,7 @@ class RenderMails extends Component {
             {Mails.map(mail => (
               <tr
                 onClick={() => this.handleClick(mail._id)}
-                className="mail-row"
+                className={mail.isread ? "mail-row" : "mail-bold"}
                 key={mail._id}
               >
                 <td>

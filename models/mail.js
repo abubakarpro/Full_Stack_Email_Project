@@ -39,7 +39,7 @@ const Mail = mongoose.model("Mail", mailSchema);
 
 function validateMail(mail) {
   const schema = {
-    receiverId: Joi.ObjectId().required(),
+    email: Joi.string().required(),
     subject: Joi.string()
       .max(255)
       .required(),

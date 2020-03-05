@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import requireAuth from "../hoc/requireAuth";
 import { Route, Switch } from "react-router-dom";
-import RenderMails from "../common/renderMailsArray";
-import EmailDescription from "./emailDesc";
+import RenderMails from "../common/RenderMailsArray";
+import SingleMailItem from "./SingleMailItem";
 import { connect } from "react-redux";
 import { sent } from "../store/actions/SentAction";
 
 class Sent extends Component {
-  state = {};
-
   componentDidMount() {
     this.props.sent();
   }
+
   render() {
     const { sentMails, error } = this.props;
 
@@ -21,7 +20,7 @@ class Sent extends Component {
           <Route
             path="/sent/:id"
             render={props => {
-              return <EmailDescription {...props} />;
+              return <SingleMailItem {...props} />;
             }}
           />
           <Route
