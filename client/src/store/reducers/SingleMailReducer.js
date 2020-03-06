@@ -1,24 +1,48 @@
 import {
-  SINGLEMAIL_REQUEST,
-  SINGLEMAIL_SUCCESS,
-  SINGLEMAIL_FAILURE
-} from "../actions/SingleMailAction";
+  INBOXSINGLEMAIL_REQUEST,
+  INBOXSINGLEMAIL_SUCCESS,
+  INBOXSINGLEMAIL_FAILURE
+} from "../actions/InboxSingleMailAction";
 
-const INITIAL_STATE = { payload: {}, isLoading: false, error: "" };
+import {
+  SENTSINGLEMAIL_REQUEST,
+  SENTSINGLEMAIL_SUCCESS,
+  SENTSINGLEMAIL_FAILURE
+} from "../actions/SentSingleMailAction";
+
+const INITIAL_STATE = { mail: {}, isLoading: false, error: "" };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SINGLEMAIL_REQUEST:
+    case INBOXSINGLEMAIL_REQUEST:
       return {
         ...state,
         isLoading: true
       };
-    case SINGLEMAIL_SUCCESS:
+    case INBOXSINGLEMAIL_SUCCESS:
       return {
         ...state,
-        payload: action.payload
+        mail: action.payload
       };
-    case SINGLEMAIL_FAILURE:
+    case INBOXSINGLEMAIL_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      };
+
+    //Sent
+    case SENTSINGLEMAIL_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case SENTSINGLEMAIL_SUCCESS:
+      return {
+        ...state,
+        mail: action.payload
+      };
+    case SENTSINGLEMAIL_FAILURE:
       return {
         ...state,
         error: action.error,

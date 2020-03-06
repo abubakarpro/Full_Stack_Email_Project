@@ -50,4 +50,20 @@ router.get("/unread", auth, async (req, res) => {
   }
 });
 
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const singleMail = await Mail.findOneAndUpdate(
+      { _id: req.params.id },
+      { isread: true },
+      { new: true }
+    ).populate("senderId", { name: 1, email: 1 });
+
+    return res.status(200).send({ payload: singleMail });
+  } catch (ex) {
+    return res
+      .status(404)
+      .send({ payload: "Not Mails exists against such user" });
+  }
+});
+
 module.exports = router;

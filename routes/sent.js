@@ -1,4 +1,4 @@
-const { Mail, validateMail } = require("../models/mail");
+const { Mail } = require("../models/mail");
 const express = require("express");
 const router = express.Router();
 const auth = require("../middlewares/authmiddleware");
@@ -19,6 +19,22 @@ router.get("/", auth, async (req, res) => {
         .send({ payload: "Not Mails exists against such user" });
     }
     return res.status(200).send({ payload: sendMails });
+  } catch (ex) {
+    return res
+      .status(404)
+      .send({ payload: "Not Mails exists against such user" });
+  }
+});
+
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const singleMail = await Mail.findOneAndUpdate(
+      { _id: req.params.id },
+      { isread: true },
+      { new: true }
+    ).populate("receiverId", { name: 1, email: 1 });
+
+    return res.status(200).send({ payload: singleMail });
   } catch (ex) {
     return res
       .status(404)

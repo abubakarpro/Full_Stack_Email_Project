@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import requireAuth from "../hoc/requireAuth";
 import { Route, Switch } from "react-router-dom";
 import RenderMails from "../common/RenderMailsArray";
-import SingleMailItem from "./SingleMailItem";
+import SentSingleMailItem from "./SentSingleMailItem";
 import { connect } from "react-redux";
 import { sent } from "../store/actions/SentAction";
 
@@ -20,7 +20,7 @@ class Sent extends Component {
           <Route
             path="/sent/:id"
             render={props => {
-              return <SingleMailItem {...props} />;
+              return <SentSingleMailItem {...props} />;
             }}
           />
           <Route

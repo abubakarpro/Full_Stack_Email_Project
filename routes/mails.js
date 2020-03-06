@@ -56,7 +56,7 @@ router.get("/:id", auth, async (req, res) => {
       { _id: req.params.id },
       { isread: true },
       { new: true }
-    ).populate("senderId", { name: 1 });
+    ).populate("receiverId", { name: 1 });
 
     return res.status(200).send({ payload: singleMail });
   } catch (ex) {

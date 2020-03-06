@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import requireAuth from "../hoc/requireAuth";
 import RenderMails from "../common/RenderMailsArray";
-import SingleMailItem from "./SingleMailItem";
+import InboxSingleMailItem from "./InboxSingleMailItem";
 import { connect } from "react-redux";
 import { inbox } from "../store/actions/InboxAction";
 
@@ -19,7 +19,7 @@ class Inbox extends Component {
           <Route
             path="/inbox/:id"
             render={props => {
-              return <SingleMailItem {...props} />;
+              return <InboxSingleMailItem {...props} />;
             }}
           />
           <Route

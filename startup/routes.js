@@ -11,7 +11,8 @@ module.exports = function(app) {
   app.use(express.json());
   app.use("/api/users/", users);
   app.use("/api/auth/", auth);
-  app.use("/api/mails/inbox/", inbox);
   app.use("/api/mails/sent/", sent);
+  app.use("/api/mails/inbox/", inbox);
+
   app.use("/api/mails/", mails);
 };

@@ -41,8 +41,10 @@ class RenderMails extends Component {
                 key={mail._id}
               >
                 <td>
-                  {mail.senderId.name}
-                  {mail.receiverId.name}
+                  {mail.senderId.name && <span>{mail.senderId.name}</span>}
+                  {mail.receiverId.name && (
+                    <span>To: {mail.receiverId.name}</span>
+                  )}
                 </td>
                 <td style={{ textAlign: "center" }}>
                   {mail.subject}
@@ -52,6 +54,9 @@ class RenderMails extends Component {
                   </span>
                 </td>
                 <td>{mail.date.substr(0, 10)}</td>
+                <td>
+                  <i className="fas fa-trash"></i>
+                </td>
               </tr>
             ))}
           </tbody>
