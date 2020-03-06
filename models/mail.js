@@ -28,6 +28,10 @@ const mailSchema = new mongoose.Schema({
   isread: {
     type: Boolean,
     default: false
+  },
+  isdelete: {
+    type: Boolean,
+    default: false
   }
 });
 
