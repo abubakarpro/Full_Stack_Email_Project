@@ -11,7 +11,7 @@ class InboxSingleMailItem extends Component {
   };
 
   componentDidMount() {
-    const token = Store.getState().Auth.token;
+    const token = this.props.token;
     const user = decode(token);
     this.setState({ user: user });
 
@@ -50,7 +50,8 @@ class InboxSingleMailItem extends Component {
   }
 }
 const mapStateToProps = state => ({
-  mail: state.SingleMail.mail
+  mail: state.SingleMail.mail,
+  token: state.Auth.token
 });
 
 const mapDispatchToProps = { inboxSingleMail, updateEmailListItem };

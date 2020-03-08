@@ -7,8 +7,6 @@ import { composedMailFun } from "../store/actions/ComposedMailAction";
 import { connect } from "react-redux";
 import Store from "../store/Store";
 
-const token = Store.getState().Auth.token;
-
 class ComposedForm extends Component {
   state = {
     composedMail: {
@@ -77,7 +75,7 @@ class ComposedForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const token = Store.getState().Auth.token;
+    const token = this.props.token;
     const errors = this.validate();
     this.setState({ errors: errors || {} });
     if (errors) return;
@@ -177,7 +175,8 @@ class ComposedForm extends Component {
   }
 }
 const mapStateToProps = state => ({
-  error: state.Composed.error
+  error: state.Composed.error,
+  token: state.Auth.token
 });
 
 const mapDispatchToProps = { composedMailFun };

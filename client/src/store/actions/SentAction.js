@@ -1,13 +1,11 @@
 import axios from "axios";
-import Store from "../Store";
 
 export const SENT_REQUEST = "SENT_REQUEST";
 export const SENT_SUCCESS = "SENT_SUCCESS";
 export const SENT_FAILURE = "SENT_FAILURE";
 
-export function sent() {
+export function sent(token) {
   return async dispatch => {
-    const token = Store.getState().Auth.token;
     dispatch({
       type: SENT_REQUEST
     });

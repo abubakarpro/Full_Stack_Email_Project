@@ -26,7 +26,7 @@ class RenderMails extends Component {
         >
           {Head}
         </div>
-        {error && <Notify error={error} />}
+        {error ? <Notify error={error} /> : ""}
         <table className="table table-hover table-sm">
           <thead>
             {/* <tr>

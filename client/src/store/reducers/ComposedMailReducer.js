@@ -4,7 +4,7 @@ import {
   COMPOSEDMAIL_FAILURE
 } from "../actions/ComposedMailAction";
 
-const INITIAL_STATE = { payload: "", isLoading: false, error: "" };
+export const INITIAL_STATE = { payload: "", isLoading: false, error: "" };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {

@@ -8,7 +8,7 @@ import { inbox } from "../store/actions/InboxAction";
 
 class Inbox extends Component {
   componentDidMount() {
-    this.props.inbox();
+    this.props.inbox(this.props.token);
   }
 
   render() {
@@ -42,7 +42,8 @@ class Inbox extends Component {
 }
 const mapStateToProps = state => ({
   receivedMails: state.Inbox.payload,
-  error: state.Inbox.error
+  error: state.Inbox.error,
+  token: state.Auth.token
 });
 
 const mapDispatchToProps = { inbox };

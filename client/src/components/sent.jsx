@@ -8,7 +8,7 @@ import { sent } from "../store/actions/SentAction";
 
 class Sent extends Component {
   componentDidMount() {
-    this.props.sent();
+    this.props.sent(this.props.token);
   }
 
   render() {
@@ -41,7 +41,8 @@ class Sent extends Component {
 }
 const mapStateToProps = state => ({
   sentMails: state.Sent.payload,
-  error: state.Sent.error
+  error: state.Sent.error,
+  token: state.Auth.token
 });
 
 const mapDispatchToProps = { sent };

@@ -6,7 +6,7 @@ import {
 
 import { UPDATE_EMAIL_LIST_ITEM } from "../actions/UpdateEmailListItemAction";
 
-const INITIAL_STATE = { payload: [], isLoading: false, error: "" };
+export const INITIAL_STATE = { payload: [], isLoading: false, error: "" };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {

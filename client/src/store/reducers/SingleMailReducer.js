@@ -10,7 +10,7 @@ import {
   SENTSINGLEMAIL_FAILURE
 } from "../actions/SentSingleMailAction";
 
-const INITIAL_STATE = { mail: {}, isLoading: false, error: "" };
+export const INITIAL_STATE = { mail: {}, isLoading: false, error: "" };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
