@@ -9,6 +9,7 @@ router.get("/", auth, async (req, res) => {
   try {
     const token = req.header("x-auth-token");
     const decode = jwt.verify(token, config.get("jwtPrivateKey"));
+
     const sendMails = await Mail.find({
       senderId: decode._id
     }).populate("receiverId", { name: 1, email: 1 });

@@ -33,20 +33,23 @@ router.get("/allMails", auth, async (req, res) => {
   try {
     const token = req.header("x-auth-token");
     const decode = jwt.verify(token, config.get("jwtPrivateKey"));
-    const allMails = await Mail.find(
-      { receiverId: decode._id } || { senderId: decode._id }
-    );
+    console.log("id", decode._id);
+    const allMails = await Mail.find({
+      $or: [{ senderId: decode._id }, { receiverId: decode._id }]
+    });
+
+    console.log(allMails);
 
     if (!(allMails.length > 0 && Array.isArray(allMails))) {
       return res
         .status(404)
-        .send({ payload: "111 Not Mails exists against such user" });
+        .send({ payload: "Not Mails exists against such user" });
     }
     return res.status(200).send({ payload: allMails });
   } catch (ex) {
     return res
       .status(404)
-      .send({ payload: "2222 Not Mails exists against such user" });
+      .send({ payload: "cat Not Mails exists against such user" });
   }
 });
 
